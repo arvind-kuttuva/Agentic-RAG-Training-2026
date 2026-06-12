@@ -1,0 +1,1022 @@
+FastAPI is similar to SpringBoot. Used for developing API's in python. The competitor to this is Flask. But its relatively old
+AI/ML:
+	Classifier, Recommendations, Predictions, Object detection. All these serve one purpose. Hence they are one dimensional. These are traditional AI
+Gen AI:
+	Is multi-dimensional as it can serve multiple purposes.
+	It can create new words because thats how it works. This is what paves way for Hallucinations as it does not know when it has to create and when it has to say no.
+	Predictable output has been the way so far. But Gen AI provides different output everytime and different. Earlier - Deterministic. Gen AI - Non-deterministic. We cannot generate software such non-deterministic approach. To make it as much deterministic as possible, control via prompt. This is called prompt engineering. 
+
+Reinforcement learning (rewards and penalities) is used by LLM's 
+
+For the AI Engineering, if the LLM is not able to produce a structured output (like producing in JSON format) then dont use it.
+For agents, if the LLM does not support "tool call" or function calling (calling another tool) then dont use it. (The LLM is able to answer details that happened after "knowledge cut off date". This happens because of tool call - in this case it uses the tool "web search".
+LLM is also like an "auto complete"  
+LLM can make inference if our prompt is not complete. To avoid inference, add something like this prompt - if you are not clear, ask.
+Grok is one LLM that learns or evolves on a daily basis. It learns from all the tweets!
+Agent is software to do some of our work. Robotic is software + hardware to do some our work.
+20 billion parameters means 20 billion ways of sentence framing. Internally the sentence framing is decided by weights where weights are finetuned during learning. If the large 20 billion parameters LLM, will be customized for health care - meaning that the LLM focuses only on health care domain - then it means LLM is fine tuned. 
+
+
+models.dev: Lists out all the LLM models. The model id name that we will be using in our program should be picked up from this URL. If its misspelled or the case is changed, then the model will not be called.
+	There will be different providers listing the same model. They will be providing the model with some markup fee
+
+python: objects are dict. Arrays are lists
+
+3 ways to access LLM:
+1) official website (chatgpt.com, gemini.google.com, claude.ai)
+2) use RESTful API's (platform.openai.com, aistudio google, console.anthropic.com)
+3) Enterprise LLM Development (amazon bedrock, azure, google cloud/vortex)
+platform.openai.com -> go to manage -> API keys ->
+For getting the sample code: aistudio.google.com -> documentation -> Rest 
+
+
+****************
+Day 2
+*************
+
+Prompt engineering is the art and science of creating precise, concise and context-rich prompts
+A best prompt is one that creates the same output across various LLM's. If Citibank user tries and google llm api is down, then we should fallback to another llm api. Hence the prompt should also be tested across various LLMs
+If you give an example in the prompt then the output will be at a different level
+"write a story on" will produce a not so professional output. But if you give "Write a story on" then it will be professional. 
+
+1 token = 0.75 word
+1 word = 1.33 tokens
+With each model the number of tokens get reduced for ex, an earlier model of gpt will say 500 tokens for a given sentence. But a later model will say 460 tokens for it and a latest model will say 430 tokens. 
+input + output tokens = context
+JSON when given as input or output will increase the number of tokens as there are many special characters.
+
+Roles: user, assistant, ai, tool
+
+For the AI Engineering, if the LLM is not able to produce a structured output (like producing in JSON format) then dont use it.
+For agents, if the LLM does not support "tool call" or function calling (calling another tool) then dont use it. (The LLM is able to answer details that happened after "knowledge cut off date". This happens because of tool call - in this case it uses the tool "web search".
+For agents, if the LLM does not support "reasoning" then do not use that LLM
+AI agents are software version of humans:
+	LLM is brain
+	system prompt is roles
+	Reasoning for think
+	Memory
+	plan 
+	calling tool (act)
+Types of AI Agents:
+	1) Autonomous Agent: Do it whatever it takes
+	2) Semi-Autonomous Agent: Human in the loop agent (HITL). Humans will be part of the flow
+Multi-Agent: One agent's output becomes another agents input. Types are sequential (one by one), Hierarchical (one agent decides on what other agents work on aka supervisor worker architecture), Hybrid (combo), Parallel (one sequential agent set up will use google gemini and the other sequential agent will use chatgpt), Async (agent passes to another and does not wait for the response - aka background process)
+
+openAI SDK: agent development in Open AI
+ADK: AGent development kit - google
+Claude Agent SDK
+Due to the above agent development ties us to particular LLM resulting in vendor locking and portability issues
+So we now have Multi agent frameworks. The tools are LangChain, LangGraph, AutoGen
+
+We will use ReAct prompting here (Reasoning and Acting). Normal prompts only provide reason but here in agent it should Act also
+If the agent keeps doing the same thing, then its called Runaway agent. To avoid that, we have a control called "Max Tool Calls". 
+
+Prompts with variables are prompt templates
+ex:
+You are a product description writer working for a seller who is selling products in amazon and flipkart.
+
+You have to write the description for the {product_name}, {model}, {size}, {features}, {mrp}, {discounted_price}
+
+Your writing should have 3 persuasive paragraphs. After reading your descriptions, users should add the product to cart or click the buy now button. Also include discounted price is only for this week till 25th May 2026. 
+
+After the paragraphs, you must have the "Key Features" Section with the features in list. 
+
+Then, MRP with strikethrough and then in the next line Discounted Price
+
+The description must have SEO keywords at the right places. 
+
+Are you ready?
+
+you can create this in chatgpt.com/gpts and distribute. https://chatgpt.com/g/g-6a06ee6b4f788191b967756c62d68434-product-description-writer
+
+
+****************
+Day 3
+*************
+
+Important criterias to choose models
+1) Reasoning Model (No reasoning,  minimal reasoning, reasoning)
+2) Tool call/Function calling
+3) Structured output
+4) Larger context window 
+
+role: model (For openai)
+role: ai/assistant (For Gemini)
+
+companies deprecate models all the time. There was protest from public when chatgpt 4.0 was deprecated and the model was then restored. But if you dont want this to happen, then go for cloud providers AWS, Azure where the deprecation problem will not happen as we have hosted the model in our rented infrastructure.
+
+Types of AI Agents:
+	1) Chat Agents: Does chats 
+	2) Autonomous Agent: Do it whatever it takes
+	3) Semi-Autonomous Agent: Human in the loop agent (HITL). Humans will be part of the flow
+	4) Deep Agent/Long running agents: uses Deep research. 
+	
+
+Options on how the prompt has to be processed.
+1) Web search: Question like what is the weather 
+2) Thinking: Any coding question
+3) Deep Research: Question like how to go mars within 3 months will be answered
+
+
+pip install uv 
+uv --version
+code . (opens vs code)
+uv init (initializes the python project. Since this cmd is executed from the path where we have created the project folder, that project gets initialized. Can be seen in vs code)
+uv venv (creates virtual environment)
+.venv\Scripts\activate (activates virtual environment. Redirects python and pip to .venv. Any package installation now happens only inside .venv. And not on global python. venv as a separate mini Python installation just for your project.)
+
+For execution of fastapi projects:
+uv add fastapi (installs fastapi)
+uv add uvicorn (installs server packages)
+uv run uvicorn main:app --reload (to execute the project. This starts the server and will keep monitoring the code for any changes)
+uv run uvicorn app.main:app --reload (app prefix is required as main.py is under /app folder. If "app." is not given, we will get "Error loading ASGI app. Could not import module "main"")
+uv run uvicorn examples.ex13.backend:app --reload
+To stop the server, press ctrl+c then type in deactivate.
+
+To execute python projects:
+python example\ex12_example.py
+
+To execute streamlit code:
+streamlit run .\examples\ex13\ui.py
+
+To run ingestion process:
+$env:PYTHONPATH="."; uv run app/ingestion/ingestion.py
+
+*********WHY venv is required? ******************
+Do note that both fastapi projects and python projects should be run after executing .venv\Scripts\activate. This will ensure that the dependent packages downloaded will get invoked from their virtual env
+
+uv run uvicorn app.main:app --reload
+	This main does not have __main__. But it still runs. Reason is uvicorn refers to the app variable inside the main.py (app=FastAPI()). So what uvicorn does is "from app.main import app" and it runs the FastAPI. __main__ is required only for "python....". uv run: runs the command inside the managed env (if you have this, then no need to activate the env). uvicorn starts FastAPI server. 
+
+python example\ex12_example.py
+	Activate venv. Should have __main__. Used for standalone python scripts.
+	If you dont want to activate venv then use uv run python example\ex12_example.py
+
+streamlit run .\examples\ex13\ui.py
+	uv run should be be used in this case so that streamlit uses the right env.
+
+uv run = environment manager + command runner
+uvicorn = web server
+python = script executor
+
+Simple mental model:
+python → "use whatever environment is active"
+uv run → "force correct environment every time"
+
+You can either prefix uv run against every command 
+	uv run uvicorn app.main:app --reload
+	uv run python example\ex12_example.py
+	uv run streamlit run .\examples\ex13\ui.py
+
+or activate the environment and just run it like 
+	uvicorn app.main:app --reload
+	python example\ex12_example.py
+	streamlit run .\examples\ex13\ui.py
+
+why does this work "$env:PYTHONPATH="."; uv run .\app\retrieval\retrieval_hybrid.py"? And this does not work "python .\app\retrieval\retrieval_hybrid.py"? Do note that the latter does not even with env activated and deactivated.
+	The first command will run with env activated or deactivated as it has uv run, which finds the right env. 
+	The second command will give an error like app module not found in line 2 (from app.core.db import get_vector_store). This is because the second command runs the python script retrieval_hybrid.py as a standalone script and NOT as a part of app package. It does not see app as a package. To make it to see app as a package, we will have to run it as a module "python -m app.retrieval.retrieval_hybrid" or as "uv run python -m app.retrieval.retrieval_hybrid". Now python understands app -> package, retrieval is subpackage and retrieval_hybrid is the module. 
+
+	if you run python app.retrieval.retrieval_hybrid -> Error no such file as directory
+	if you run python -m app.retrieval.retrieval_hybrid without activating env -> ModuleNotFoundError: No module named 'langchain_postgres'
+	if you run python -m app.retrieval.retrieval_hybrid after activating env -> success
+
+	Alternately without activating env "uv run python -m app.retrieval.retrieval_hybrid"
+
+	Do note that if retrieval_hybrid.py did not have an import (from app.core.db import get_vector_store) then python .\app\retrieval\retrieval_hybrid.py would have worked as it would have been a standalone script. 
+
+Use base model so that only the required attributes of the class are being evaluated. This comes from pydantic
+
+Modularizing the code:
+	Routes -> Services -> DB. Routes here is similar to controller.
+	routes/products_routes.py 
+	services/products_service.py
+
+
+
+
+
+pypi: Python Package Index. Similar to Appstore to download and install third party python packages
+
+Multi-Agent Frameworks:
+	LangChain
+	LangGraph
+	AutoGen
+	CrewAI
+	Agno
+	Vercel AI SDK
+
+langchain - used for non-deterministic outputs. Highlevel framework (Similar to high level programming languages). Gives lesser control on agents
+langgraph - used for complex tasks. Low level framework (similar low level programming languages). Gives more control on agents
+current trend in langchain org is to push for langgraph as the company tries to streamline
+
+Controlling the prompt - prompt engineering
+controlling the ai agent - Harness engineering
+
+****************
+Day 4
+*************
+langchain - used for non-deterministic outputs. Highlevel framework (Similar to high level programming languages). Gives lesser control on agents
+langgraph - used for complex tasks. Low level framework (similar low level programming languages). Gives more control on agents
+current trend in langchain org is to push for langgraph as the company tries to streamline
+
+.venv\Scripts\activate
+uv add langchain
+uv add langchain-google-genai
+uv add python-dotenv
+OR
+uv add langchain langchain-google-genai python-dotenv
+
+uv add tavily-python
+
+In case if .venv folder is deleted, then use
+uv sync
+This will recreate the .venv folder with the dependencies listed in .toml file
+
+python examples/ex1_greet.py
+
+Tool calling
+1. Create a tool
+	tool is a function that agent can call
+	must have a name and description 
+	must return a data
+	can have parameters
+	tool in langchain must have @tool decorator
+	Note: 
+		No similar names for functions(get_weather1, get_weather2). LLM agent will be confused. 
+		If description is not given then we get an error as "ValueError: Function must have a docstring if description not provided."
+	
+2. Register the tool to the agent
+
+On the example #3, two requests will goto LLM. First will be from us (via the system prompt) and next one will be from the tool (weather assistant)
+Always give the tool registration first before the system prompt. 
+
+Example #5: Multi tool
+Google and Bing do not expose their websearch API's to all. But to get access use third party tools like
+Serper, Tavily, exa
+We had both weather tool and web search tool. Weather tool required longitude and latitude. So when LLM was called with two queries once to get weather and then to get details about a city, it started going to web search tool to get the longitude and latitude. This should be avoided as Tavily call is costly.
+
+LCEL: Langchain expression language. It connects components with pipe operator to form a chain. Its now abstracted and has create_agent() method
+
+
+
+Warning: there are non-text parts in the response: ['function_call'], returning concatenated text result from text parts. Check the full candidates.content.parts accessor to get the full model response.
+Performing web search for latest iPhone specs details...
+{
+  "topic": "Apple iPhone",
+  "articles": [
+    {
+      "title": "iPhone 17: Everything We Know",
+      "source": "MacRumors",
+      "summary": "The iPhone 17 lineup features the new A19 chip built on a 3-nanometer node with improved on-device generative AI capabilities. It sports a 120Hz ProMotion OLED display, 8GB of RAM, and a dual-lens 48-megapixel camera system. The baseline price starts at $799.",
+      "url": "https://www.macrumors.com/roundup/iphone-17/"
+    },
+    {
+      "title": "iPhone 17 New Features: Everything You Need to Know",
+      "source": "MOFT",
+      "summary": "Apple's iPhone 17 introduces significant upgrades including a larger 6.3-inch display peaking at 3,000 nits brightness and the A19 Bionic chip that improves processing power and energy efficiency. Apple has also doubled the base storage of the iPhone 17 to 256GB.",
+      "url": "https://www.moft.us/blogs/news/iphone-17-new-features?srsltid=AfmBOopThwD-Scb1mLRqolljgFr3PKniUehBlEeT2OxFVdihVk7rSltf"
+    },
+    {
+      "title": "iPhone 17 - Technical Specifications",
+      "source": "Apple",
+      "summary": "Official technical specifications for the iPhone 17 note the integration of Apple Intelligence, a customizable Action Button, and new Camera Control features. The device boasts fast charging up to 50% in 20 minutes, up to 30 hours of video playback, and is rated IP68 for water and dust resistance.",
+      "url": "https://www.apple.com/iphone-17/specs/"
+    }
+  ],
+  "overall_summary": "As of the latest releases (the iPhone 17 series), Apple's iPhone lineup includes models like the iPhone 17e, iPhone 17, iPhone 17 Pro, and iPhone Air. The standard iPhone 17 features a 6.3-inch OLED display equipped with 120Hz ProMotion and up to 3,000 nits of peak brightness. It is powered by the A19 Bionic chip (built on a 3nm process) with 8GB of RAM, designed to natively support \"Apple Intelligence\" for advanced on-device AI tasks. Other major upgrades include a dual 48-megapixel camera setup, a new Camera Control button, and a customizable Action Button. The baseline storage for the standard iPhone 17 has been increased to 256GB, with prices starting at $799."
+
+Warning: there are non-text parts in the response: ['function_call'], returning concatenated text result from text parts. Check the full candidates.content.parts accessor to get the full model response.
+Performing web search for latest iPhone news...
+Topic: Latest iPhone Details and News
+
+Overall Summary:
+The latest details surrounding the iPhone involve a mix of software developments, accessory launches, and legal news. Apple is heavily leaning into artificial intelligence for its upcoming iOS updates, with rumors pointing to new AI-powered tools and the unprecedented ability for users to select their preferred AI models in iOS 27. On the hardware and accessories side, Apple has expanded its inclusive MagSafe accessory lineup. In legal developments, the company recently settled a $250 million Siri-related lawsuit, meaning eligible iPhone users could be receiving payouts.
+
+Articles (4):
+
+  [The Independent] Eligible iPhone owners owed $250m after Apple settles Siri lawsuit
+  Apple has settled a lawsuit concerning Siri for $250 million, which could result in US iPhone owners being owed up to $95 each.
+  🔗 https://www.independent.co.uk/topic/iphone
+
+  [The Independent] What to expect from Apple’s next big iPhone update
+  Reports suggest that the next major iPhone software update will introduce new artificial intelligence tools and give users the option to customize their cameras.
+  🔗 https://www.independent.co.uk/topic/iphone
+
+  [AppleInsider] iPhone users will get to select a preferred AI model in iOS 27
+  Leaks regarding iOS 27 indicate that Apple might allow iPhone users to choose their preferred AI model, alongside adding improved AI-generated writing tools and wallpapers.
+  🔗 https://appleinsider.com/
+
+  [MacRumors] Apple Releases Popular iPhone Grip and Stand in Three New Colors
+  Apple has globally launched the Hikawa Grip & Stand for iPhone in three new colors. The MagSafe accessory was designed specifically for individuals with disabilities affecting grip and mobility.
+  🔗 https://www.macrumors.com/		
+
+
+Agentic design pattern
+uv add streamlit
+
+ex1: 
+Calling LLM directly. 
+	initialize chat model - init_chat_model(modelname)
+	invoke model - respone = model.invoke("hello there")
+	print(response)
+
+ex2:
+Calling agent.
+	agentname = create.agent(model= model/brain, system_prompt= system/role - you are a helpful assistant)
+	response = agentname.invoke("messages": [ {"role": "user", "content": "what is the capital of belgium"}])
+	print(response) #gives the entire response from LLM
+	print(response["messages"][-1].text) #gives only the reply from LLM
+
+ex3:
+weather agent. The input parms of the func are automatically checked by the agent and parameters are passed. No need to explicitly send!
+	@tool
+	def funcname(input parms - latitude, langitude) -> output datatype:
+		"""what is the tool doing. required for the agent to know"""
+		response = requests.get(f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current_weather=true")
+		current_weather = response.json()
+    		return current_weather
+
+	agentname = create.agent(model= model/brain, system_prompt= system/role - you are a weather assistant, tools=[funcname])
+	response = agentname.invoke(message role, content)
+	
+ex4:
+linkedin post writer. similar to ex2. Here we are assigning a role to the agent saying that the agent is "you are a linkedin post writer". In ex2, it as a helpful assistant. Thats the only difference
+
+ex5:
+One agent invoking multiple tools
+	too11:
+		weather tool - open-meteo. Similar to ex3
+
+	tool2:
+		tavily. Does web search. To get current information and not just go by knowledge cutoff date of the model/brain
+
+	agentname = create.agent(model= model/brain, system_prompt= system/role - get current weather of brussels and who is the pm , tools=[tool1name, tool2name])
+
+ex6:
+sequential multi agent.
+	In this ex, __main__ is used to invoke the dual agents
+	create agent1  - agentname1 = create.agent(....)
+	create agent2  - agentname2 = create.agent(....)
+
+	def sequential_pipeline(topic):
+	agent1_result= agent1.invoke(...)
+	agent2_result = agent2.invoke("messages": [ {"role": "user", "content": "summarize this {agent1_result['messages'][-1].content}"}])
+	return agent2_result
+
+	if __name__ == "__main__":
+		sample_topic = "Future of programming"
+		result = sequential_execution_pipeline(sample_topic)
+		print result
+
+ex7:
+bfsi sequential workflow. 
+	same as ex6. Diff is agent1 will call tavily for writing info on bfsi which agent2 will review . so add the tool name when creating the agents.
+
+ex8:
+prompt template.
+	set prompt
+	Initialize model
+	
+	pipeline = prompt | model #pipeline symbol is chain operator
+	response = pipeline.invoke({
+    "query": """Samsung air frier, Electronics, no oil, easy clean,
+    dependable, healthy option, Rs 5000"""
+})
+	*****check whether on the initialize model we can ex1 code here
+
+ex9:
+
+****************
+Day 5
+*************
+When a LLM need to be used in an org, then fine tuning is not the right approach as the policies/data change. So RAG is better. Its called RAG because it not only retrieves but augmenting the retrieved data and then generating it. For example, if I upload HR policy document which has only leave policy and if I ask a qn on "vacation policy" then it still gets the answer by matching with leave policy. csv file is not a good source as it contains only data with no context. RAG system should always have a citation (if it should not be displayed to end users, then it should be captured internally). The citation comes as we are storing the metadata also. 
+
+If you want to have RAG system not to augment the output then use hyperparameters. The hyperparameters are
+	1) Max output tokens: For RAG system, its essential that we control how much should be the length of the response. So set max output tokens.
+	2) Temperature: If you want to have RAG system not to augment the output the set the temp to 0 - this is required when we need to get the legal details. If you want it to be creative then set the temp value as 1 (some models also allow 2 - gives answer like a poet). IF its 0.15, then it will alter few words. Do note that this also helps controls tokens as additional words are not generated
+	3) Top P: What is the most likely word to be returned. The sky is... It has words blue 0.60, clear 0.20, cloudy, 0.10. If top p is given 0.8 then it will give clear blue (0.60 +0.20) and top is 0.9 cloudy clear blue (0.1+0.2+0.6). If we give top p as 0.1 then it will give only blue as it will go for the word with high probability. So setting top p with lower value reduces the number of tokens generated
+	4) Frequency Penalty: a setting that discourages the model from repeating the same words too often in a generated response. For ex: The house is looking good. The house a large hall. The house has lot of furnitures. Instead write: The house is looking good. It has a large hall and lot of furnitures.  So this setting act as "repetition tax". It looks at how many times a word has appeared and penalizes its probability of being chosen again. This may need not be required in RAG
+	5) Presence Penalty: Presence of the same word gets penalized. Topic stagnation. While frequency is for repetitive wording
+	Max output tokens and Temperature help to control Hallucination.
+
+	Note: There are hyperparameters set during the LLM training. They are different category.
+
+RAG will have two different set of implementations.
+	1) Ingestion: Saving source data in to vector DB [Onetime setup]. Password protected files should not be sent. Check whether the source document does not have conflicting information. Noise words should be removed (pl, thank you, "assign this ticket to A if B is not in office", header, footer)
+	2) Retrieval: Retrieving data from vector db
+
+	Ingestion Pipeline:
+		1) Extract content 
+		2) Chunking (Fixed size - best for raw data, log, semantic chunking - FAQs knowledge bases, Recursive - real world rag systems) chunk overlap, chunk size
+		3) Embedding model
+		4) Embedding
+		5) Save the embeddings and original text in vector DB
+
+Vector DB:
+	In case of RDBMS, and NoSQL DB, we will be able to read the data. But in case of Vector DB, it will be unreadable as data is stored as Vector embeddings. The actual conversion of word to embedding is done by embedding models. We will have to tell embedding model the number of dimensions to use. The best one is 1536 dimension for our usecase. To get best results we typically store as sentences or paras. This DB uses semantic search but RDBMS, and NoSQL DB dont have such a faciilty. Hence use vector DB.
+
+Popular vector DB:
+	1) ChromaDB, Qdrant, Pinecone, Milvus, Weaviate, FAISS (is only a library), Pgvector (FTS) - postgreqsl. You can install pgvecctor
+		FAISS is a library
+
+Chunking:
+	When we store a doc as sentences as paras then its called as Chunking. If a para gets divided in to two due to chunking (one portion in chunk1 and the second portion in chunk2), then the replies will be chopped. To avoid this have chunk overlapping. 
+
+	Retrieval Pipeline:
+		For retrieval, add vector search tool and have the agent to get the data from the vector search tool.
+		1) When users ask a qn
+		2) Covert the qn in to embedding via the same embedding model used in Ingestion
+		3) Do a vector search
+		4) Get the embedding and original text 
+		5) LLM will piece together the response based on the text returned
+
+
+Naive RAG system is the basic RAG system.
+ 
+uv init
+uv venv
+.venv\Scripts\activate
+uv add python-dotenv langchain "langchain[google-genai]"
+uv add langchain-community langchain-postgres pypdf tiktoken
+
+In vectordb, tables are called collections
+
+To create PostgreSQL connection
+Step 1:
+In PostgreSQL, right click on servers -> Register -> server. Fill these details up and you will get a connection called "docker_pg_connection"
+General tab -> Name: docker_pg_connection
+Connection tab -> Host name/address: localhost, port: 5433, password -> as given in the text file
+
+Step 2:
+Docker Desktop -> start
+Run this command in powershell
+docker run -d --name pgvector --restart unless-stopped -e "POSTGRES_PASSWORD=Pass@123" -p 5433:5432 -v pgvector_data:/var/lib/postgresql/data pgvector/pgvector:pg16
+
+Step 3:
+In pgadmin, select the db (hr_rag_db), 
+Then, right click and select query Tool
+And paste the following
+CREATE EXTENSION IF NOT EXISTS vector;
+
+****************
+Day 6
+*************
+Moving to pg17 version:
+Step 1:
+In docker startup, Delete the container, image and volume
+
+step 2:
+In command prompt, type 
+docker system prune -a
+docker system prune -a --volumes
+docker run -d --name pgvector --restart unless-stopped -e POSTGRES_PASSWORD=Pass@123 -p 5433:5432 -v pgvector_data:/var/lib/postgresql/data pgvector/pgvector:pg17
+
+The docker will now show pg17 instead of earlier pg16
+
+Step 3:
+Go to pgadmin:
+	In PostgreSQL, right click on servers -> Register -> server. Fill these details up and you will get a connection called "postgres17"
+	General tab -> Name: postgres17
+	Connection tab -> Host name/address: localhost, port: 5433, password -> as given in the text file
+
+	Right click on postgres17, click on "create DB", provide the database name as "hr_rag_db"
+	Once created right click on "hr_rag_db", click on query tool, run the command CREATE EXTENSION IF NOT EXISTS vector;
+
+Now you can execute your python program. 
+
+	
+****************
+Day 7
+*************
+How may chunks/results you want during retrieval? That would be top k
+Problems:
+	Embedding model gets deprecated. Retrieval will fail. So use the newer model and ingest again. For retrieval also change to the new model
+	Vector search (semantic similarity) gets the nearest value. So if I ask for dayoff, it will know that it means leave and will get it. But if the user types in product id as abc124 instead of abc123 then it will try to get the details on abc124. 
+	Keyword search - To avoid the above use keyword-search. 
+		BM25 is "best matching 25" is a keyword search algorithm for keyword search. 
+		For postgres, we can use FTS (Full Text Search)
+		ChromaDB, Qdrant, Pinecone, Milvus, Weaviate - all of these can use BM25, FAISS (is only a library), Pgvector (FTS) - postgreqsl. You can install 		pgvecctor
+		FAISS is a library. 
+		what is the procedure to take leave? - vector search
+		bank name for IFSCPNB00222 - keyword search
+		
+	Hybrid search - use keyword-search along with vector-search. Agent (via its LLM) should classify its intent
+		what is the procedure to take leave? bank name for IFSCPNB00222 - create two tools one for vector search and one for keyword search. Agent should be intelligent enough to pick and choose. 
+Agents, Tools, Prompts folder
+
+Query analyser:
+Plain text - vector search
+mixed with numbers - keyword search
+text + numbers - hybrid
+
+rrf - reciprocal rank fusion - hybrid search algo will combine FTS and vector search results in to one combined list. It will "re" rank the already ranked entries so that the most relevant ones are the top. Its about finding the right thing and finding all of them. It again goes by searching for keywords in the chunks received.
+Precision - quality of retrieved results. Relevant docs found/Total results. "of all docs retrieved, how many are relevant?". Prevents wasting LLM's context window. Reduces hallucination. Low precision means distractor chunks
+Recall - Completeness of retrieved results. Relevant doc retrieved/Total relevant in DB. "of all relevant information found, how many did I successfully retrieve?". Ensures LLM has complete evidence for the given query. Prevents incomplete or I dont know responses. Critical for comprehensive answers. High recall = found all relevant pieces. Low recall = Missed critical info
+Case A: High P Low R (picky retriever). Gets 1 chunk and thinks other 2 are not required. LLM gives a correct but incomplete answer
+Case B: Low P High R (Greedy retriever). Gives additional un
+
+was getting error module not found langchain_postgres even though it was found in the toml file. The project was running when "$env:PYTHONPATH="."; uv run app/ingestion/ingestion.py" was given. But when "uv run uvicorn app.main:app --reload, got the module found error. The problem was uvicorn was not located in .venv. This was found out by
+where.exe python -> this showed .venv environment
+where.exe uvicorn -> this did not show .venv environment
+so executed uv add uvicorn
+ 
+
+CREATE INDEX ON langchain_pg_embedding
+USING ivfflat ((embedding::vector(1536)) vector_cosine_ops)
+WITH (lists = 100);	
+
+SELECT length(document), document
+FROM langchain_pg_embedding
+LIMIT 5;
+
+
+
+****************
+Day 8
+*************
+
+Open ai status, gemini api status - shows the uptime of their LLM's
+
+Success Criteria of any AI project:
+Accuracy - zero hallucinations
+Latency
+Cost
+
+For observability in LLM, we need Agents. 
+In langsmith, sigin and create a project.  
+#configuration for observability in Langsmith
+config={
+    "run_name": "structured_output_run",
+    "tags": ["structured_output", "v1.2"],
+    "metadata": {
+        "user_id": "user_001",
+        "session_id": "session_123",
+        "name": "john doe"
+    }
+
+****************
+Day 9
+*************
+Configuring evaluators in langsmith. Delete the api key first
+Models will deteriorate after some time
+Excel and csv should NOT be used for ingestion process as they typically do not carry data and usually has formulas also.
+
+langchain
+imperative - (for(vari-0;i<arr.length;i++): less control but less readability
+Declarative - arr.map(function(v,i) -> : more control and higher readability - langgraph
+
+RAG types:
+1) Naive RAG - only text
+2) Multi-Modal RAG (if pdf is complex having headers, footers, lists etc use multi modal RAG
+3) Re-ranking RAG
+4) Agentic RAG: Can call DB also as we may not have the product stock details in RAG DB.
+5) GRaph RAG: Is able to give relations also, For ex, if I give CEO and later CFO then Graph RAG will be able to relate them (GraphQL is diff. We can customize what is returned in the response as for ex, a smart watch will not be able to consume the same lengthy payload that will be need by a website)
+
+ MutliModal -> Reranking -> Graph
+
+
+Layout aware PDF reader should be built as for some ads we will have info in two columns. And also in comics book
+
+Pyplumber, unstructured io are not useful to parse multimodal docs
+Llamaindex is the competitor for Langchain. But we will use LlamaParse for complex documents (this is similar to tavilly where we can get their api and use their parser). Since its costly, we can use Docling to parse multimodal docs. So use Docling for parsing docs and langchain as the orchestrator
+
+runaway agent - keeps calling the same tool. So in prompt specify the max limit
+What happens if we upload the same document again - for now pre_delete_collection=True set. But need a prod grade solution.
+api endpoint should be api/v1
+max tool calls
+No abbreviations
+follow PEP8
+React prompt + few shot prompt
+use 2 tools only. More tools you use more context should be provided.
+
+give gemini-embedding-2 a mp3 file and see what happens
+
+
+
+****************
+Day 10
+*************
+
+LangGraph: Lowlevel orchestration framework. Its not only useful for creating chatbots but also for workflows. Bringing in ITL is difficult with Langchain. Only two things are inherited from langgraph - models (.invoke) and tools
+
+AI Agents:
+1) Chat Agents - Langchain
+2) Autonomous Agents - start it and forget. But build it fail safe. For ex, if we are using google-docs and it does not work, then it has to be handled
+3) Semi-Autonomous Agents /Human in the loop (HITL) agents - for machine critical operations. The agent proposes but humans decides
+4) Deep Agents/Long-running Agents - ex: Manu's site. Running a prompt in chatgpt to get a thesis report. It will run long
+
+State: Common data for all agents. In cricinfo, there is one json file that stores all the key data that is used by all the pages in the site to maintain the same info. For ex, if there is a total score of a match, then it should reflect the same value across all screens. Similarly for agents we have state that maintain this data in a common fashion. In case of langchain example when we were creating a draft script initially there was one person who created it and then it was "passed" to reviewer. But in case of LangChain we can store it in the common state and need not pass it on
+
+Router node: "if then" node. Depending on a value, it will route to any of the other nodes
+Contradictory tools should not be used
+Two similar descriptions for tools should not be used
+
+We are going to develop chat agents using LangGraph
+
+code . (opens vs code)
+uv init (initializes the python project. Since this cmd is executed from the path where we have created the project folder, that project gets initialized. Can be seen in vs code)
+uv venv (creates virtual environment)
+.\.venv\Scripts\activate
+uv add langgraph
+uv add python-dotenv
+uv add langchain_openai
+python .\examples\example1.py
+
+
+git init
+git add .*
+git remote add origin <remote repo name>
+to change: git remote set-url origin https://github.com/arvind-kuttuva/Agentic-RAG-Training-2026/tree/main/reranking_rag_sytem
+git checkout -b user/Arvind
+git branch to verify the branch name
+git config --global user.name <username registered in github>
+git config --global user.email <user email registered in GitHub?
+git commit -m "Initial commit"
+git push -u origin <branch name>
+
+
+****************
+Day 11
+*************
+
+LLM knows what tools to use. So all agents will also have access to it. But this will be disadvantage if the agent does not need the tool
+ex6 and ex7 are anti patterns. ex8 is in native way of langGraph. "LangGraph Native Approach" - use this when asking chatgpt. In this tool itself is a node. Hence ex8_tool_node
+Open AI compatible API's. - Anthropic, claude, grok are following OpenAI compatible API's. But Google does not. So there will be code changes if we switch the model
+
+Query: what is 10+29 input
+
+
+****************
+Day 12
+*************
+Self healing agents - If something fails, then see how much you can self heal.
+self recovery agents - retry logic. 
+Checkpointer - go back to the place where it failed (like a commit point in RDBMS). Its called episodic memory as it retains only for the current session.
+
+Docling is an oss that is layout aware (where h1 and h2 will come). Goto docling.ai site and see a sample listed.
+Tables in pdf will be converted to markdown which will again be a table in text format. This will consume lot of tokens.
+So do not go for markdown. Instead Convert in to dataframe for docling based rag system
+
+1) Read PDF
+2) Find the layout
+	find element type
+	if text, extract text
+	if table, convert to dataframe
+	if images, convert to base64 get captions from VLM (Vision Language Model)
+	if scanned content, use OCR or VLM
+	if header/footer avoid duplicate chunks
+
+base64 image will have a long url. It can be opened anywhere and the same image will be displayed.
+
+uv init
+uv venv
+uv add fastapi uvicorn python-dotenv docling langchain-postgres langchain-openai langgraph langchain python-multipart
+uv run python -m src.ingestion.ingestion
+
+CREATE EXTENSION IF NOT EXISTS vector;
+
+tuple unpacking (similar to dict unpacking)
+
+****************
+Day 13
+*************
+Reranking model: Filter out unwanted results doing semantic search. (rrf is a library and not a model and does only match of keywords). Reranker is a cross-encoder. Reads the query and candidate chunk at the same time and scores how relevant the chunk to the specific query - semantically. Cross-encoders are far more accurate than cross -similarity. But it cannot be used as a direct retriever as it would be slow.
+
+Stage 1 (precision): Get everything
+Stage 2 (recall): Get the relevant items
+
+Vector search provides the output - cost from embedding model
+Data provided to reranking model  - cost from reranking model (cohere, for ex)
+Reranking provided to LLM - cost from LLM
+
+When we have several versions of a doc, then LLM should respond back with an answer including the version #'s. As of 2026, this was the hr policy and as of 2025, this was the hr policy. These kind of answers will be better given by reranking model. 
+No model will be able to give the exact difference between two documents. If we need that, then the document version history has to be obtained.
+Rank 1 cohere score: 1.000 | original index 1 -> This come from Hr doc 2026 -> latest version
+Rank 2 cohere score: 1.000 | original index 1 -> this come from HR doc 2025 -> prev version
+
+pre-processing of data. if the page1 says we should come in formals from Monday to Friday but the same doc says employees should come on casuals on Saturday in page 300, then its a data problem. In order to resolve this we need user input OR the system prompt has to be changed to accommodate this. 
+
+psycopg - when its required in PostgreSQL conn string?
+
+For executing MutiModal RAG system:
+uv run python -m src.api.v1.ingestion.ingestion
+OR
+$env:PYTHONPATH="."; uv run .\src\ingestion\ingestion.py
+
+For executing rerank
+uvicorn src.main:app --reload --port 8000
+
+
+First line should not be space in function calls
+constant vames
+
+****************
+Day 14
+*************
+For excel ingestion, the file should be given to a LLM as it will have multiple tabs and possibly formulas. The approach is similar to image which we send to LLM for captioning.
+For text, we can ingest directly but there will be no page numbers.
+Native RAG(pdf/docx/pptx/txt)
+How can a RAG bot be developed specifically for developers? Typically a lengthy code will be split in to chunks and will be harder to put together
+For ex: to understand code, use Deep Wiki site - give any public GitHub repo, it will create a RAG bot and will create an Arch diagram also.
+
+IF we refresh the page, then the chat history should come back. It should not be lost.
+
+
+we started with
+Native RAG
+Multimodal RAG (strengthened ingestion)
+Reranking RAG (Strengthened Retrieval)
+
+Above 3 will not be able to resolve two problems: 
+	retrieving data from DB: Agent knows only one data source (Vector DB) but most of the customer data will be in RDMS. To resolve this Agentic RAG
+	relationship between chunks (entity relationship}. One chunk has junior developer and the other chunk has the programmer list. With normal RAG, the programmer list will not even come. Another example if the RAG has the family tree for few hundred years, then we will not be able to findout family relationship. To resolve this GraphRAG 
+
+	Agentic RAG = can call any of these - Vector db + RDBMS + REST API. For ex, in Amazon if a seller needs to add a product, then they can just give the details via a prompt and the rest will be taken care. 
+
+Gen UI - LLM generates UI on the fly. If I say give me the flight details between two cities, instead of giving it as text it gives a clickable UI. For every follow-up qn or action it keeps generating a UI on the fly!
+
+
+
+	For agentic RAG, 
+		1. always create read-only credentials. 
+		2. Give access to only few select tables
+		3. Agent must know about the schema of the tables
+		4. Ensure your agent always writes 'select' queries
+		5. Debug to know whether your agent writes destructive SQL commands
+
+	This means we are converting natural language to sql. There is a package available to do this. nl2sql - Text to SQL
+
+uv add psycopg2-binary
+
+
+
+Refresh it should show. Like chatgpt, show them on the right side.
+Metadata should be tracked by langsmith
+Metadata filtering
+Query decomposition and sub-question answering. Given 5 queries in a single shot by the user, we will have to parse them and get answers for each qn. Because if we get answers for them together, then k=20 will not be enough. But if we get each query separately,  then 20 will come for each qn. Put everything together and get the right chunks from re-ranker. The answer will be better.
+Query expansion and query reformulation. Spelling mistakes and abbreviation (query expansion). If the query is not clear, reformulate the query and try again (query reformulation).
+Hypothetical Document Embeddings - HyDE 
+Feedback loop - if langsmith gives conciseness as 1 or hallucination as true, then call langsmith API and then use it to improve the system. Without feedback loop, RAG Bot will not evolve. Weekly get the feedback and vectorize. 
+
+IF we have LLM only without agent, then we cannot connect it to LangSmith as Agent provides the reasoning and traceability to LangSmith. Correct?
+what is add_messages? what is it functionality?
+	ans:  is a state update strategy (reducer). Whenever a new msg is returned, append it. If we just have "messages = [new_message]" then only the current message is maintained. with add_messages "messages = old_messages + new_messages". Conv history is preserved
+
+Does the below code put the looping in the graph between agent and tools? How does langgraph know from this piece of code that it should loop?
+workflow.add_conditional_edges( #brain of the graph. conditional routing
+    "agent",
+    should_continue,
+    ["tools", END]
+)
+Why is this code 
+	workflow.add_edge("tools", "agent")
+	coming after the add_conditional_edges? What would happen if we give it before conditional? 
+In this "workflow.add_node("agent", agent_node)" the word "agent" serves any other purpose other than it getting displayed in langgraph?
+Why is toolnode not declared as a function, unlike other nodes?
+
+What happens if the prompt contains something which the tools cannot satisfy? Will LLM try to answer based on its own knowledge?
+
+
+
+Communication:
+1) Simplex: One way commn. Transmitter -> Receiver. ex: Radio, FM
+2) Half-Duplex: Both can communicate but one at a time. ex: Walkie Talkie, SMS, http (for one request, get one response. Its stateless and not continuous)
+	Transceiver -> Transceiver, 
+	Transceiver <- Transceiver
+3) Full-Duplex: Transceiver <-> Transceiver Both can communicate at all times. ex: Phone, ms teams, auio chat, video chat
+
+What will make http to continuously stream?
+1. Socket commn
+2. Server Sent Events (SSE). Server would have stopped communicating with client and will send an event whenever its ready - like user clicking a button in UI. This is similar to Async
+
+Using socket will be costly. SSE will be better
+Streaming API provided by ChatGPT will help in streaming the data, so that user does not notice delay. (If you dont use streaming then the user will have to wait for a while and the entire content will be dumped in a single shot). Agent will receive it as stream -> send it as stream to service -> send it as stream to UI
+
+
+
+StateGraph - Graph
+AgentState - state
+AgentNode - thinking node that does LLM reasoning. Here the agent is like a wrapper to LLM which orchestrates LLM invocation. LLM is the brain. Agent tells how to use the brain
+ToolNode - tool execution aka execution node that runs the tools
+State - Memory (or memory that holds the conversation)
+add_messages - adds messages to state/memory so that the context grows. append-only conversation history manager
+app = workflow.compile() - build the LangGraph
+app.invoke() - run the LangGraph aka Invokes LangGraph which starts the workflow execution from the "START" node. 
+
+
+
+
+
+START → agent (LLM decides → weather_tool)
+          ↓
+     should_continue()  → "tools"         
+	↓
+	ToolNode (executes weather_tool)
+                   ↓
+               agent (LLM sees weather result)
+                   ↓
+           should_continue() → maybe "tools" again (calculator)
+                   ↓
+                ToolNode (executes calculator_tool)
+  			↓
+		agent (LLM produces final answer)
+ 			 ↓
+		should_continue → END
+
+1. agent runs
+2. if tool_calls present → go to ToolNode
+3. ToolNode executes tool
+4. back to agent
+5. agent runs again (with updated context)
+6. routing happens via should_continue
+7. repeat until no tool_calls
+
+app.invoke(messages) - messages go to the start which is agent(agent_node)
+agent_node now takes the messages. LLM sees the messages and decides the next tool to call from the list (weather and calculator tool). 
+It also decides the order in which the tools have to be called.
+Agent then invokes the tools via ToolNode
+Once the value is received, the control goes to should_continue. If the state shows more tools to be executed, then from there the agent is called, which again calls the toolNode, which executes the tool, control goes to to should_continue. If the state shows more tools to be executed, then the process continues. Otherwise it ends.
+
+What portion of the flow is controlled by LLM, Agent, LangGraph?
+LLM - Thinking/decision making
+Agent - invokes LLM and structures interaction
+LangGraph - Execution Flow and Orchestration
+
+User Query
+   ↓
+LangGraph → routes to agent
+   ↓
+Agent → calls LLM
+   ↓
+LLM → decides tool_calls
+   ↓
+LangGraph → routes to ToolNode
+   ↓
+ToolNode → executes tool
+   ↓
+LangGraph → updates state
+   ↓
+LangGraph → routes back to agent
+   ↓
+Agent → calls LLM again
+   ↓
+LLM → decides next step
+   ↓
+LangGraph → executes flow
+
+why do we need the "Tool" given by LangGraph, cant Agent call the tool as per the order, like in langchain?
+In langchain, there is no visibility on the tools output and tool execution is internally handled by the agent framework. LangGraph gives more control - where tools are executed, how state flows, how looping happens. By having a separate ToolNode, we get more control on the tools, tool calls, tool output, state changes. ToolNode exists to: 
+- separate execution
+- enable control
+- allow graph-based workflows
+
+State is the shared memory across the graph. This memory can be accessed by agents. add_messages help in adding each new message to the state, thereby growing the context. 
+
+Are ex8 and ex10 conceptually the same?
+	Yes they are conceptually the same. But in ex8 routing is driven by LLM via tool_calls. In ex10, routing is driven by our code programmatically. If you want a workflow driven approach based on business rules and not via tool driven approach then use ex8
+
+Diff between LangChain and LangGraph?
+	LangChain - LLM decides everything. LangGraph - LLM and the programmer can decide. Graph enforces structure.
+
+HNSW Index:
+	Hierarchical Navigable Small World Index which works like a zoomable map. The vectors are categorized with zoom levels - upper layer which has subsamples - bottom layer - which has the detailed vectors. It helps in doing ANN (Approximate Nearest Neighbour) search.
+
+pgvector - extension of PostgreSQL. Hence the statement CREATE EXTENSION IF NOT EXISTS vector
+SQLAlchemy - Hibernate equivalent in Java. But helps in connecting only with Relational DB. It will not help to connect to Vector DB's like Chroma, Pinecone, FAISS, Weaviate
+psycopg - driver for connecting to postgresql
+
+Capstone 2:
+1) Take the ingestion code from multimodel_rag_system. 
+
+
+****************
+Day 15
+*************
+Long running agent needs streaming for better user experience
+The model should have this streaming feature
+changes in query.py(router) query_service.py and agents.py
+
+
+black formatter. right click -> formatter. ctrl+shift+f. Set this as a default formatter via settings. While saving also we can save it with formatting (this will require the default formatter to be set).
+
+pylancer
+
+
+****************
+Day 16
+*************
+
+GuardRails
+	Input Guardrails: Check in the input. If the user sends aadhar, then do PII redact by sending only the last few digits of it to the LLM. Or if its not required, then the output should come as for customer ID <CUSTOMER_ID>
+crewAI and Agno comes withits own guardrails. But Langgraph does not have any native guardrail. So use 3rd party like guardrailsai.com. This will filter out any toxic words, for ex, and then only send it further. Other ex is competitor check, PII check. These guardrails can either be used as a library by downloading it locally. Or use the cloud version which will get updated automatically. If its downloaded as lib then it has to be updated manually.
+
+95% transparency score
+0% bias 
+
+uv add guardrails-ai
+guardrails configure
+enable anonyomous metrics: n
+remote inferencing: n (this will help to run the models locally or from cloud)
+
+(reranking_rag_system) PS C:\Users\t91-labuser051568\Documents\agentic-ai-course-may2026\reranking_rag_system> guardrails hub install hub://guardrails/guardrails_pii
+(reranking_rag_system) PS C:\Users\t91-labuser051568\Documents\agentic-ai-course-may2026\reranking_rag_system> guardrails hub install hub://guardrails/toxic_language
+
+https://guardrailsai.com/hub/validator/guardrails/toxic_language
+
+
+Model Context Protocol (MCP)
+	Whatever the model sees is its context - system prompt, messages, tools. These are what we know so far.
+		context = system prompt + tools schema 
+			*tools schema = tool name, its description, i
+	There is one more - memory - use to refine its answer based on memory. 
+	One more additionally - skills. Skill - is another role that bot has to play. Skill are kept in file system. SKILL.md. An ex: (this is called front matter).
+		name: pdf
+		description: Use this skill whenever the user has to do something with pdf.
+		In the command line if you type /pdf, then a given md file will be created as a prod grade pdf. 
+		Each agent will have acces to these skills. Whenever the agent needs the skill will be loaded. So an agent can now do multiple skills
+
+	The max of this context is called the context size or context window.
+
+	If an AI app has an agent that call Jira systems, then if we need to create another project then again that agent will have to call jira system. So with each newer version, the code duplicates. To avoid this use MCP. Also the template of open aI is different from Anthropic. This again create another level of issues.
+	To avoid these problems, we use MCP, which is a standard for the above problem. MCP will host the jira tool which can be accessed common fashion by two AI apps, there by reducing the code duplication.
+	To access MCP, we need MCP client. 
+	For ex, to access Tavilly we had created an API key. Another way is to logon to its MCP server which will have its own URL - this will also require an API key. Similarly jira MCP server is also available.
+
+	There are 3 different ways in which MCP servers are available
+	1) Third party MCP server (Tavilly, Jira, GitHub)
+	2) community MCP server
+	3) our own custom MCP server
+
+	before going for our own custom MCP server, check whether there are any community MCP server in GitHub. They are same like pypy packages but there could be some unknown vulnerabilities
+	If this is not available go for own custom MCP server. It can be developed in any of the commonly used languages. For ex, we can use Python. To avoid typing in raw python code, we can use Python MCP SDK. It uses FastMCP as the framework. Do note that FastMCP will have it own port in which it will run (similar to streamlit)
+
+	There are three transport layers available in MCP - transport layers are modes in which your MCP client connects to MCP server
+	1. stdio - local machine can only access
+	2. Streamable-http (Remotely accessible)
+	3. SSE - server sent events (deprecated)
+
+
+	MCP Inspector: To test the MCP server. To start it uv run mcp dev main.py. (dev here indicates that we can debug). It open a webinterface at a 127.0.0.1/6274 It will list the tools that are being exposed by the MCP server.
+
+	Postman is not a MCP client. It does not offer support to test MCP servers. Hence use MCP Inspector
+
+Disadvantages:
+1) All tools that the MCP server will come in, whether we need it or not
+2) Can also result in prompt injection. For ex, if a tool is called from the MCP server and it comes with a prompt to do something else, then the LLM can be tricked. To avoid this ensure that your system prompt has an instruction like "remember that you have to do this only"
+
+Progressive tool loading: Get only the tools that I will need.
+
+On the mcp_server_demo, run "uv run python main.py http". This will run in streamable mode
+on the existing langgraph, add ex13 and then run
+uv add langchain-mcp-adapters
+uv run .\examples\ex13_agent_with_mcp.py
+
+
+Memories:
+sending your conv to third party. They will identify what needs to be "Remembered" and they will save it (ex conv: I am a veg and allergic to nuts). Once the user starts a new session, retrieve it and it to your system prompt.
+One such third party is mem0.ai. mem0.ai/usecase - see samples on what conv is getting saved as memories
+
+hermes
+
+
+Built version is called image. Running version is called container.
+
+Langsmith setup:
+Create a new project. Generate API key. Take the API key add it to your .env file. Now the project will connect with langsmith
+
+Hallucination setting:
+set the source
+Give the openapi api key (this is for langsmith to connect)
+
+<context>
+should be set to output.messages[*]
+</context>
+
+<input>
+input.messages
+</input>
+
+<output>
+output.messages
+</output>
+
+<reference_outputs>
+referenceOutput
+</reference_outputs>
+
+Conciseness Setting:
+set the source
+
+<input>
+input.messages
+</input>
+
+<output>
+output.messages
+</output>
+
+
+
+
+
